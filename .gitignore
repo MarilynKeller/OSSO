@@ -1,0 +1,12 @@
+*.npz
+.python-version
+workspace.*
+data/skeleton/*
+out/
+__pycache__/
+gloss_skeleton/
+skel_venv/
+data/
+dist/
+*egg-info/
+copyright.txt

@@ -1,0 +1,4 @@
+chumpy==0.70
+matplotlib==3.5.0
+numpy==1.21.4
+opencv-python==4.5.4.60
