@@ -29,6 +29,7 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--posing_only', help='Run only the posing part', action='store_true')
     parser.add_argument('-v', '--verbose', help='Print optimization steps', action='store_true')
     parser.add_argument('-D', '--display', help='Display optimization steps', action='store_true')
+    parser.add_argument('-F', '--force_recompute', help='Force recomputing meshes', action='store_true')
     parser.add_argument('--more_it', help='Use more  optimization iterations', action='store_true')
     
     args = parser.parse_args()
@@ -39,6 +40,7 @@ if __name__ == "__main__":
     posing_only = args.posing_only
     verbose = args.verbose
     display = args.display
+    force_recompute = args.force_recompute
 
 
     os.makedirs('out/tmp/', exist_ok=True)
@@ -68,7 +70,7 @@ if __name__ == "__main__":
         logging.info(f'Infered skeleton mesh saved as {skel_mesh_lying_path}.')
     
     #Pose the skeleton to the target pose
-    if not os.path.exists(skel_mesh_posed):
+    if not os.path.exists(skel_mesh_posed) or force_recompute:
         logging.info(f'Posing the infered skeleton to match the target pose in {skin_mesh_path}...') 
         for path in [skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path] :
             assert os.path.exists(path), f'Missing file {path}'

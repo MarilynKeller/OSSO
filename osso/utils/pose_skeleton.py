@@ -29,7 +29,7 @@ def center_skeleton(gv, skin_mesh):
     return gv
 
 
-def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, joint_only=False):
+def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, joint_only=True):
     """Give a lying down skeleton model, the corresponding lying down body mesh, repose the skeleton to a target pose
 
     Args:
@@ -42,8 +42,8 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
 
     """
     if use_fast:
-        max_iter_1 = 5
-        max_iter_2 = 10
+        max_iter_1 = 10
+        max_iter_2 = 15
     else:
         max_iter_1 = 20
         max_iter_2 = 30        
@@ -78,7 +78,7 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
     # assert np.linalg.norm(np.mean(gv.r, axis=0) - np.mean(skin_mesh.v, axis=0)) < 1e-10
 
     if joint_only == True:
-        r_abs, t = pkl.load(open(skel_mesh_posed.replace('ply','_no_joints.pkl'), 'rb'))
+        r_abs, t = pkl.load(open(skel_mesh_posed.replace('.ply','_no_joints.pkl'), 'rb'))
         # import ipdb; ipdb.set_trace()
         sp.r_abs[:] = r_abs
         sp.t[:] = t
@@ -120,24 +120,14 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
         Mesh(sp.r, sp.f).write_ply(skel_mesh_posed.replace('.ply','_no_joints.ply'))
         # import ipdb; ipdb.set_trace()
         pkl.dump([sp.r_abs.r, sp.t.r ], open(skel_mesh_posed.replace('.ply','_no_joints.pkl'), 'wb'))
-    
-    # Refine the pose by stitching back the bones and using skin info
-    gloss_mask = np.zeros(sp.r_abs.size)
-    gloss_id = [0,1,17,15]
-    for i in gloss_id:
-        gloss_mask[3*i:3*i+3] = 1
-    # import ipdb; ipdb.set_trace()
-    gloss_mask = gloss_mask.astype(bool)
-    free_variables = []
-    free_variables.append(sp.r_abs[gloss_mask])
-    free_variables.append(sp.t[gloss_mask])
 
+    # Enforce bone heads to be in their sockets
     objs = {}
-    objs['stitching'] = 1 * stitching[stitch_indices] # spine only
+    objs['stitching'] = 1e-1 * stitching[stitch_indices] # spine only
     objs['tendon_cost'] = 1 * knee_cost
-    objs['ball_joint'] = 1 * ball_joint_cost 
+    objs['ball_joint'] = 1.1 * ball_joint_cost 
     # objs['diff'] = sp - sp.r
-    # objs['skin_spring'] = 1 * skin_bone_spring_cost
+    objs['skin_spring'] = 1e-2 * skin_bone_spring_cost
 
     logging.info('Refine articulations')
     on_step(None)
