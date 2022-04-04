@@ -24,6 +24,18 @@ pip install -r requirements.txt
 From OSSO folder, execute:
 `git clone https://github.com/silviazuffi/gloss_skeleton.git`
 
+You should have the following folder structure:
+
+OSSO/
+├── data/
+├── figures/
+├── gloss_skeleton/
+│   ├── gloss/
+│   └── models/
+└── osso/
+    ├── star_model/
+    └── utils/
+
 
 ## Install MPI Mesh package
 
