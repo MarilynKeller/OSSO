@@ -67,7 +67,7 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
     # import ipdb; ipdb.set_trace()
     skin_bone_spring_cost, skin_indices, skel_indices = loss.skin_bone_spring(sp, target_skin_mesh=target_skin, skin_mesh_init=source_skin)
     
-    stitch_joints = [0,3,4,5,9]#,14,15,17,19]
+    stitch_joints = [0,3,4,5,9,17,19]#,14,15,17,19]
     stitch_indices = []
     for sj in stitch_joints:
         stitch_indices += list(np.where(sp.pairIdx == sj)[0])
@@ -97,7 +97,7 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
             mvs[0][1].set_dynamic_meshes([gv_mesh, target_skin])
             # mvs[0][2].set_dynamic_meshes([gv_mesh, Mesh(target_skin.v)])
             show_ball_joints(sp, mvs[0][2], [Mesh(sp.r)])
-            print(ball_joint_cost.r)
+            # print(ball_joint_cost.r)
 
     on_step(None)
     # mv.get_mouseclick()
@@ -126,8 +126,7 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
     objs['stitching'] = 1e-1 * stitching[stitch_indices] # spine only
     objs['tendon_cost'] = 1 * knee_cost
     objs['ball_joint'] = 1.1 * ball_joint_cost 
-    # objs['diff'] = sp - sp.r
-    objs['skin_spring'] = 1e-2 * skin_bone_spring_cost
+    objs['skin_spring'] = 5*1e-2 * skin_bone_spring_cost
 
     logging.info('Refine articulations')
     on_step(None)
