@@ -15,16 +15,26 @@ import pickle as pkl
 import osso.config as cg
 import random
 
-from osso.utils.loss import get_ball_sphere, sphere_fit_ch
+from osso.utils.loss import sphere_fit_ch
+
 
 def location_to_spheres(loc, color=(1,0,0), radius=0.02):
-    """input: Nx3 array giving 3D positions
-    color : one color vector
-    return: list of sphere meshes """
+    """Given an array of 3D points, return a list of spheres located at those positions.
+
+    Args:
+        loc (numpy.array): Nx3 array giving 3D positions
+        color (tuple, optional): One RGB float color vector to color the spheres. Defaults to (1,0,0).
+        radius (float, optional): Radius of the spheres in meters. Defaults to 0.02.
+
+    Returns:
+        list: List of spheres Mesh
+    """
+
     cL = [Sphere(np.asarray([loc[i, 0], loc[i, 1], loc[i, 2]]), radius).to_mesh() for i in range(loc.shape[0])]
     for spL in cL:
         spL.set_vertex_colors(np.array(color)) 
     return cL
+
 
 def show_meshes_with_ldm(mv, gv, gv_ldm_indices, pred_landmarks, skin_mesh):
     
@@ -59,24 +69,6 @@ def show_skin_bone_springs(skel_mesh, skin_mesh, skel_indices, skin_indices, cos
     # mv.set_dynamic_meshes([skel_mesh, Mesh(skin_mesh.v)])
 
 
-
-def get_joint_pairs():
-
-    joint_pairs = [
-    ['femur_PL', 'hips_L'],
-    ['humerus_DL', 'ulna_PL'],
-    ['humerus_PL', 'shoulder_L'],
-    ['femur_DL', 'tibia_PL'],
-    # ['clavicle_L', 'sternum_L'],
-
-    ['femur_PR', 'hips_R'],
-    ['humerus_DR', 'ulna_PR'],
-    ['humerus_PR', 'shoulder_R'],
-    ['femur_DR', 'tibia_PR'],
-    # ['clavicle_R', 'sternum_R'],
-    ]
-
-
 def color_gradient(N, scale=1, shuffle=False, darken=False, pastel=False):
     """Return a list of N color values forming a gradient"""
     import colorsys
@@ -98,7 +90,6 @@ def color_gradient(N, scale=1, shuffle=False, darken=False, pastel=False):
     return RGB_list
 
 
-
 def show_ball_joints(skel_v, mv, mesh_list):
 
     bjoints_dict = pkl.load(open(cg.ball_joints_path, 'rb'))
@@ -107,19 +98,7 @@ def show_ball_joints(skel_v, mv, mesh_list):
     for i, verts_ids in enumerate(bjoints_dict['verts_ids']):
         verts = skel_v[verts_ids, :]
         center, radius = sphere_fit_ch(verts)
-        # show_compute_ball_joint_results(verts)
 
         s = Sphere(center.r, 0.02).to_mesh(color=colors[i])
-        # s.f = []
-        # import ipdb; ipdb.set_trace()
         mesh_list.append(s)
         mv.set_dynamic_meshes(mesh_list)
-
-    # lines_list = []
-    # for b1_name, b2_name in get_joint_pairs():
-    #     v1, _ = get_ball_sphere(skel_v, b1_name, bjoints_dict)
-    #     v2, _ = get_ball_sphere(skel_v, b2_name, bjoints_dict)
-
-    #     li = Lines([v1,v2], [0,1])
-    #     lines_list.append(li)
-    #     mv.set_dynamic_lines(lines_list)

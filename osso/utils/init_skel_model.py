@@ -37,7 +37,7 @@ def load_skeleton_model(gv_data=None):
 
 
 def init_stitched_puppet(skeleton_verts):
-
+    
     gv = load_skeleton_model()
 
     # Replace the skeleton model template by the personalized template skeleton_verts

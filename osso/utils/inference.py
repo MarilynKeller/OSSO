@@ -11,7 +11,6 @@ import logging
 import pickle as pkl
 import numpy as np
 import chumpy as ch
-
 from psbody.mesh import Mesh, MeshViewer
 
 from osso.star_model.star import STAR
@@ -27,8 +26,7 @@ def pose_lying(skin_model, gender):
     skin_model.pose[3:] = lying_pose
 
 
-def infer_skeleton_shape_verts(skin_betas, betas_regressor, skeleton_pca):
-    
+def infer_skeleton_shape_verts(skin_betas, betas_regressor, skeleton_pca):   
     # Predict skeleton betas from the skin
     skel_betas = np.dot(np.hstack([skin_betas, [1.]]), betas_regressor)[:10]    
 
@@ -40,7 +38,6 @@ def infer_skeleton_shape_verts(skin_betas, betas_regressor, skeleton_pca):
 
 
 def optimize_bone_loc(sp, skin_mesh, reg, verbose, display):
-
     # Predict ldm from skin
     pred_landmarks = reg.ldm_regressor.dot(skin_mesh.v)
 
@@ -74,7 +71,6 @@ def optimize_bone_loc(sp, skin_mesh, reg, verbose, display):
     ch.minimize(objs, x0=free_variables, method='dogleg', callback=on_step, options=opt)
 
 
-
 def infer_skeleton(skin_pkl_path, skel_mesh_path, skel_pkl_path, skin_mesh_lying_path, gender, display=False, verbose=False):
     """Infer a skeleton mesh given STAR parameters.
 
@@ -93,7 +89,6 @@ def infer_skeleton(skin_pkl_path, skel_mesh_path, skel_pkl_path, skin_mesh_lying
     assert set(['verts', 'betas', 'pose']).issubset(skin_data.keys())
     nb_beta = skin_data['betas'].shape[0]
     skin_model = STAR(gender, num_betas=nb_beta)
-    # import ipdb; ipdb.set_trace()
     skin_model.betas[:] = skin_data['betas']
     pose_lying(skin_model, gender)
         
@@ -104,7 +99,6 @@ def infer_skeleton(skin_pkl_path, skel_mesh_path, skel_pkl_path, skin_mesh_lying
     
     #Load learned regressors
     reg = Regressors(gender)
-    
     
     # Infer Skeleton shape in tpose
     skin_betas = skin_data['betas'][:10]
@@ -119,7 +113,6 @@ def infer_skeleton(skin_pkl_path, skel_mesh_path, skel_pkl_path, skin_mesh_lying
     # Optimize for the bones location
     optimize_bone_loc(sp, skin_mesh, reg, verbose, display)
     
-    # import ipdb; ipdb.set_trace()
     pkl.dump(sp, open(skel_pkl_path, 'wb'))
     Mesh(sp.r, sp.f).write_ply(skel_mesh_path)
     Mesh(skin_model.r, skin_model.f).write_ply(skin_mesh_lying_path)

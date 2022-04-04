@@ -11,6 +11,7 @@ import pickle as pkl
 from psbody.mesh import Mesh, MeshViewers
 import chumpy as ch
 import numpy as np
+from osso.star_model.star import STAR
 
 def register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display=False, verbose=False):
     """Given a body mesh, align the body model STAR to it.
@@ -28,8 +29,6 @@ def register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display
 
     skin_mesh = Mesh(filename=skin_mesh_path)
 
-    from osso.star_model.star import STAR
-    # import ipdb; ipdb.set_trace()
     sv = STAR(gender, num_betas=10)
     assert skin_mesh.v.shape[0] == sv.r.shape[0], (f'Input mesh should have the same topology as STAR or SMPL. Mesh has {skin_mesh.v.shape[0]} vertices, {sv.v.shape[0]} expected')
 
@@ -64,9 +63,8 @@ def register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display
         'pose' : params['pose'] * pose ,
     }
 
-    #optimize
+    # Optimize
     options={'maxiter': 5, 'disp': verbose}
-    # import ipdb; ipdb.set_trace()
     ch.minimize(objs, [sv.pose[0:3], sv.trans], method='dogleg', callback=on_step, options=options)
     ch.minimize(objs, [sv.betas[:3], sv.pose, sv.trans], method='dogleg', callback=on_step, options=options)
 
@@ -82,7 +80,6 @@ def register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display
     sv_data['verts'] =  sv.r
     sv_data['faces'] = sv.f
 
-    # import ipdb; ipdb.set_trace()
     if star_pkl_path:
         Mesh(sv, sv.f).write_ply(star_mesh_path)
         pkl.dump(sv_data, open(star_pkl_path, 'wb'))

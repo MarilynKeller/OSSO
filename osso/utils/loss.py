@@ -12,11 +12,11 @@ import osso.config as cg
 import pickle as pkl
 import chumpy as ch
 
+
 def pair_contact_cost(sp, skin_mesh):
     skin_indices, skel_indices, pair_weights = pkl.load(open(cg.skin_skel_contacts_file, 'rb'))
     skel_contact_pair_indices = sp.from_template_topology(skel_indices)
 
-    # skin_mesh.v[:,2] = skin_mesh.v[:,2] + cam_d - params['z_init']
     skin_thickness = 0.005
     skin_points = skin_mesh.v[skin_indices, :]
     skin_points = skin_points - skin_thickness * skin_mesh.estimate_vertex_normals()[skin_indices, :]
@@ -25,7 +25,7 @@ def pair_contact_cost(sp, skin_mesh):
 
 
 def ldm_loss(sp, skel_ldm_indices, pred_ldm):
-    """ Loss to minimize the diistance between landmarks predicted from a skin shape 
+    """ Loss to minimize the distance between landmarks predicted from a skin shape 
     and the corresponding skeleton model vertices"""
     return sp[skel_ldm_indices] - pred_ldm
 
@@ -78,10 +78,10 @@ def spring(v1, v2, r0):
 
 
 def sphere_fit_ch(verts):
-    #From https://jekel.me/2015/Least-Squares-Sphere-Fit/
-    # Close form solution if the sphere fitting
-    #   Assemble the A matrix
+    # Code adapted from rom https://jekel.me/2015/Least-Squares-Sphere-Fit/ 
+    # Close form solution of the sphere fitting
 
+    # Assemble the A matrix
     spX = verts[:, 0]
     spY = verts[:, 1]
     spZ = verts[:, 2]
@@ -91,30 +91,27 @@ def sphere_fit_ch(verts):
                         spZ[:, np.newaxis]*2, 
                         np.ones((len(spX),1))], axis=1)
 
-    #   Assemble the f matrix
-    # import ipdb; ipdb.set_trace()
+    # Assemble the f matrix
     f = ((spX*spX) + (spY*spY) + (spZ*spZ))[:, np.newaxis]
 
     C, residules, rank, singval = ch.linalg.lstsq(A,f)
     center = C[:3,0]
 
-    #   solve for the radius
+    # Solve for the radius
     t = (C[0]*C[0])+(C[1]*C[1])+(C[2]*C[2])+C[3]
     radius = ch.sqrt(t)
 
-    # import ipdb; ipdb.set_trace()
     assert center.dr_wrt(verts) is not None
     return center, radius
 
 
 def get_ball_sphere(sp, b_name, bjoints_dict, return_chumpy = False):
     # Fit spheres to specific points of the mesh
-    #The returned parameters are differenciable wrt gv verts
+    # The returned parameters are differenciable wrt gv verts
     b_index = bjoints_dict['names'].index(b_name)
     b_verts = bjoints_dict['verts_ids'][b_index]
 
     verts = sp[b_verts]
-    # import ipdb; ipdb.set_trace()
     if type(verts) == np.ndarray:
         verts = ch.array(verts)
 
@@ -131,7 +128,6 @@ def get_ball_sphere(sp, b_name, bjoints_dict, return_chumpy = False):
 def ball_joints_cost(sp, sp0):
 
     bjoints_dict = pkl.load(open(cg.ball_joints_path, 'rb'))
-
     joints_cost_list = []
     
     for b1_name, b2_name in get_joint_pairs():
@@ -145,10 +141,8 @@ def ball_joints_cost(sp, sp0):
         v20, _ = get_ball_sphere(sp0, b2_name, bjoints_dict)
         r0 = np.linalg.norm(v10-v20)
 
-        # import ipdb; ipdb.set_trace()
         if ('femur' in b1_name) and ('hips' in b2_name):
             r0 = 0
-            # import ipdb; ipdb.set_trace()
 
         c = spring(v1, v2, r0)
         joints_cost_list.append(c)
@@ -185,16 +179,12 @@ def skin_bone_spring(gv, target_skin_mesh, skin_mesh_init):
     vect0 = gv.r[skel_indices,:] - skin_mesh_init.v[skin_indices,:]
     vect = (gv[skel_indices,:] - target_skin_mesh.v[skin_indices,:])
 
-    # import ipdb; ipdb.set_trace()
     d0 = np.linalg.norm(vect0, axis=1)
-    e = 0.01# minimum skin tickness (mm)
+    e = 0.01 # minimum skin tickness (mm)
     d0[(d0 < e)] = e
     
     skin_normal = target_skin_mesh.estimate_vertex_normals()[skin_indices,:]
-    #per line dot product
+    # Per line dot product
     coeff = -ch.sign(ch.sum(vect * skin_normal, axis=1) / (ch.sqrt(vect[:,0]**2 + vect[:,1]**2 + (vect[:,2]**2))))
-
-    #import ipdb; ipdb.set_trace()
     cost =  (ch.sqrt(vect[:,0]**2 + vect[:,1]**2 + (vect[:,2]**2))) * coeff.T - d0
-
     return cost, skin_indices, skel_indices

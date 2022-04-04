@@ -23,5 +23,5 @@ class Regressors:
         
         self.betas_regressor  = pkl.load(open(betas_regressor_file, 'rb'))
         self.ldm_regressor    = pkl.load(open(ldm_regressor_file, 'rb'))
-        self.sp_ldm_indices      = pkl.load(open(sp_ldm_indices_file, 'rb'))
+        self.sp_ldm_indices   = pkl.load(open(sp_ldm_indices_file, 'rb'))
         self.skeleton_pca     = pkl.load(open(skeleton_pca_file, 'rb'))
