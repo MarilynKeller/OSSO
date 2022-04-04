@@ -29,7 +29,7 @@ def center_skeleton(gv, skin_mesh):
     return gv
 
 
-def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, joint_only=True):
+def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, joint_only=False):
     """Give a lying down skeleton model, the corresponding lying down body mesh, repose the skeleton to a target pose
 
     Args:
