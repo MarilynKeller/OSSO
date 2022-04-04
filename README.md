@@ -18,7 +18,7 @@ Please follow the installation instruction in [installation.md](installation.md)
 The skeleton can be inferred either from a [SMPL](https://smpl.is.tue.mpg.de/) or [STAR](https://github.com/ahmedosman/STAR) mesh.
 
 ``` 
-python main.py  --mesh_input data/demo/body_female.ply --gender female -D
+python main.py  --mesh_input data/demo/body_female.ply --gender female -D -v
 ```
 
 The final infered skeleton will be saved in the `out` folder and the intermediate meshes in `out/tmp`.

@@ -27,7 +27,7 @@ def center_skeleton(gv, skin_mesh):
     return gv
 
 
-def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, joint_only=False):
+def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=True, display=False, verbose=True, joint_only=False):
     """Give a lying down skeleton model, the corresponding lying down body mesh, repose the skeleton to a target pose
 
     Args:
@@ -101,7 +101,7 @@ def pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, ske
     objs['skin_spring'] = skin_bone_spring_cost
     objs['stitching'] =  10 * stitching
     objs['clavicle_cost'] =  clavicle_cost
-    opt = {'maxiter':max_iter_1}
+    opt = {'maxiter':max_iter_1, 'disp':verbose}
 
     if not joint_only:
         ch.minimize(objs, x0=free_variables, method='dogleg', callback=on_step, options=opt)

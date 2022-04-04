@@ -16,7 +16,7 @@ from osso.utils.inference import infer_skeleton
 from osso.utils.pose_skeleton import pose_skeleton
 from osso.utils.star_registration import register_star
 
-
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 
 if __name__ == "__main__":
@@ -59,23 +59,23 @@ if __name__ == "__main__":
         
     # Register STAR to the input body mesh
     if not os.path.exists(star_pkl_path) or not os.path.exists(star_mesh_path):   
-        logging.info(f'Registering STAR to mesh {skin_mesh_path}...')
+        logging.info(f'Registering STAR to mesh {skin_mesh_path} ...')
         register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display=display, verbose=verbose)
         logging.info(f'STAR registration saved as {star_pkl_path}.')  
         
     # Infer the skeleton in lying down pose
     if not os.path.exists(skel_pkl_lying_path):
-        logging.info(f'Infering the skeleton for skin {star_pkl_path}...')  
-        infer_skeleton(star_pkl_path, skel_mesh_lying_path, skel_pkl_lying_path, star_mesh_lying_path, gender, display=False, verbose=False)
+        logging.info(f'Infering the skeleton for skin {star_pkl_path} ...')  
+        infer_skeleton(star_pkl_path, skel_mesh_lying_path, skel_pkl_lying_path, star_mesh_lying_path, gender, display=display, verbose=verbose)
         logging.info(f'Infered skeleton mesh saved as {skel_mesh_lying_path}.')
     
     #Pose the skeleton to the target pose
     if not os.path.exists(skel_mesh_posed) or force_recompute:
-        logging.info(f'Posing the infered skeleton to match the target pose in {skin_mesh_path}...') 
+        logging.info(f'Posing the infered skeleton to match the target pose {skin_mesh_path} ...') 
         for path in [skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path] :
             assert os.path.exists(path), f'Missing file {path}'
             
-        pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=not args.more_it, display=display)
+        pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=not args.more_it, display=display, verbose=verbose)
         logging.info(f'Posed skeleton saved as {skel_mesh_posed}.')
         
     
