@@ -26,6 +26,7 @@ From OSSO folder, execute:
 
 You should have the following folder structure:
 
+```
 OSSO/
 ├── data/
 ├── figures/
@@ -35,6 +36,7 @@ OSSO/
 └── osso/
     ├── star_model/
     └── utils/
+```
 
 
 ## Install MPI Mesh package
