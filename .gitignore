@@ -11,3 +11,4 @@ data/star
 dist/
 *egg-info/
 copyright.txt
+*.zip

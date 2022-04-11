@@ -10,8 +10,8 @@ cd OSSO
 
 Create a virtual environment and activate it:
 ```
-python3.8 -m venv skel_venv # create a new venv
-source skel_venv/bin/activate # activate it
+python3.8 -m venv skel_venv
+source skel_venv/bin/activate
 ```
 
 Install the required packages:

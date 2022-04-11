@@ -62,12 +62,16 @@ if __name__ == "__main__":
         logging.info(f'Registering STAR to mesh {skin_mesh_path} ...')
         register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display=display, verbose=verbose)
         logging.info(f'STAR registration saved as {star_pkl_path}.')  
+    else:
+        logging.info(f'STAR registration already exists in {star_pkl_path}. Force (-F) too recompute')  
         
     # Infer the skeleton in lying down pose
     if not os.path.exists(skel_pkl_lying_path):
-        logging.info(f'Infering the skeleton for skin {star_pkl_path} ...')  
+        logging.info(f'Inferring the skeleton for skin {star_pkl_path} ...')  
         infer_skeleton(star_pkl_path, skel_mesh_lying_path, skel_pkl_lying_path, star_mesh_lying_path, gender, display=display, verbose=verbose)
-        logging.info(f'Infered skeleton mesh saved as {skel_mesh_lying_path}.')
+        logging.info(f'Inferred skeleton mesh saved as {skel_mesh_lying_path}.')
+    else:
+        logging.info(f'Inferred lying down skeleton already exists in {skel_mesh_lying_path}. Force (-F) too recompute')  
     
     #Pose the skeleton to the target pose
     if not os.path.exists(skel_mesh_posed) or force_recompute:
@@ -77,6 +81,8 @@ if __name__ == "__main__":
             
         pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, skin_mesh_path, skel_mesh_posed, use_fast=not args.more_it, display=display, verbose=verbose)
         logging.info(f'Posed skeleton saved as {skel_mesh_posed}.')
+    else:
+        logging.info(f'Posed skeleton already exists in {skel_mesh_posed}. Force (-F) too recompute')  
         
     
  

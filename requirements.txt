@@ -1,4 +1,5 @@
-chumpy==0.70
-matplotlib==3.5.0
+cython==0.29.28
 numpy==1.21.4
+matplotlib==3.5.0
+chumpy==0.70
 opencv-python==4.5.4.60
