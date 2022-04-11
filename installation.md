@@ -6,16 +6,17 @@ git clone https://github.com/MarilynKeller/OSSO
 cd OSSO
 ```
 
-# Environment
+## Environment
 
 Create a virtual environment and activate it:
 ```
-python3.8 -m venv skel_venv
-source skel_venv/bin/activate
+python3.8 -m venv osso_venv
+source osso_venv/bin/activate
 ```
 
 Install the required packages:
 ```
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
@@ -26,7 +27,6 @@ From OSSO folder, execute:
 
 You should have the following folder structure:
 
-```
 OSSO/
 ├── data/
 ├── figures/
@@ -36,7 +36,6 @@ OSSO/
 └── osso/
     ├── star_model/
     └── utils/
-```
 
 
 ## Install MPI Mesh package
@@ -54,10 +53,13 @@ The compilation takes some minutes.
 Download STAR from the website https://star.is.tue.mpg.de/downloads. You will need to create an account. 
 
 Place the extracted files in the `data` folder.
+``` cd path/to/OSSO/data ```
+``` unzip star_1_1.zip ```
 
 Likewise, download the skeleton data from https://osso.is.tue.mpg.de/download.php, and place it in the `data` folder.
+```unzip skeleton.zip ```
 
-Your data folder should look like this:
+Your `OSSO/data` folder should look like this:
 
 ```
 data/
@@ -74,7 +76,7 @@ data/
 │   ├── skeleton_model.pkl
 │   ├── skeleton_pca_female.pkl
 │   └── skeleton_pca_male.pkl
-└── star/
+└── star_1_1/
     ├── female/
     │   └── model.npz
     ├── LICENSE.txt
@@ -89,5 +91,5 @@ data/
 ## Install OSSO
 ```
 cd path/to/OSSO
-python setup.py install
+pip install .
 ```
