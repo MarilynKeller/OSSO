@@ -20,7 +20,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Download the skeleton model
+## Download the skeleton model code
 
 From OSSO folder, execute:
 `git clone https://github.com/silviazuffi/gloss_skeleton.git`
