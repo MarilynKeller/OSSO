@@ -3,8 +3,8 @@ data_folder = 'data/'
 
 skeleton_model_file = data_folder + 'skeleton/skeleton_model.pkl'
 
-path_male_star = data_folder + 'star/male/model.npz'
-path_female_star = data_folder + 'star/female/model.npz'
+path_male_star = data_folder + 'star_1_1/male/model.npz'
+path_female_star = data_folder + 'star_1_1/female/model.npz'
 
 lying_pose_path = data_folder + 'skeleton/lying_pose_{gender}.pkl'
 skin_skel_contacts_file = data_folder + 'loss/skin_skel_contacts.pkl'

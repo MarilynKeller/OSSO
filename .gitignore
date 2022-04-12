@@ -7,7 +7,7 @@ __pycache__/
 gloss_skeleton/
 skel_venv/
 data/skeleton
-data/star
+data/star_1_1
 dist/
 *egg-info/
 copyright.txt

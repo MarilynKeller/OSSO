@@ -1,5 +1,7 @@
 # Installation
 
+This code has only been tested on Ubuntu.
+
 Clone this repository:
 ```
 git clone https://github.com/MarilynKeller/OSSO
