@@ -59,7 +59,7 @@ Place the extracted files in the `data` folder.
 ``` cd path/to/OSSO/data ```
 ``` unzip star_1_1.zip ```
 
-Likewise, download the skeleton data from https://osso.is.tue.mpg.de/download.php, and place it in the `data` folder.
+Likewise, download the Skeleton Inference Model (first link) from https://osso.is.tue.mpg.de/download.php, and place it in the `data` folder. 
 ```unzip skeleton.zip ```
 
 Your `OSSO/data` folder should look like this:
