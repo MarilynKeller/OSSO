@@ -6,8 +6,8 @@ Please read carefully the following terms and conditions and any accompanying do
  
 Ownership / Licensees
 
-The Software and the associated materials has been developed at the Max Planck Institute for Intelligent Systems (hereinafter "MPI"). Any copyright or patent right is owned by and proprietary material of the Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V. (hereinafter “MPG”; MPI and MPG hereinafter collectively “Max-Planck”) hereinafter the “Licensor”.
-
+The Software and the associated materials has been developed at the Max Planck Institute for Intelligent Systems (hereinafter "MPI"), IMATI-CNR and INRIA. The original skeleton mesh is released with permission of Anatoscope (www.anatoscope.com).
+Any copyright or patent right is owned by and proprietary material of the Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V. (hereinafter “MPG”; MPI and MPG hereinafter collectively “Max-Planck”), hereinafter the “Licensor”.
  
 License Grant
 
