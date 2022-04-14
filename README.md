@@ -40,11 +40,11 @@ If you find this model & software useful in your research, please consider citin
 
 ## Acknowledgements
 
-OSSO uses the [Stitched Puppet](https://stitch.is.tue.mpg.de/) by Silvia Zuffi and the body model [STAR](https://github.com/ahmedosman/STAR) by Ahmed Osman. The model was apply on [AGORA](https://agora.is.tue.mpg.de/) for demonstration.
+OSSO uses the [Stitched Puppet](https://stitch.is.tue.mpg.de/) by Silvia Zuffi and Michael J. Black, and the body model [STAR](https://github.com/ahmedosman/STAR) by Ahmed Osman et al. The model was applied on [AGORA](https://agora.is.tue.mpg.de/) (Priyanka Patel et al.) for demonstration.
 
 This research has been conducted using the UK Biobank Resource under the Approved Project ID 51951. The authors thank the International Max Planck Research School for Intelligent Systems for supporting Marilyn Keller. Sergi Pujades’ work was funded by the ANR SEMBA project. We thank Anatoscope (www.anatoscope.com) for the initial skeleton mesh and useful discussions.
 
-We also thank A. A. Osman for his helpfull advice on body models, P. Patel for helping testing OSSO on AGORA, T. McConnel and Y. Xiu for helping with the submission and release, and P. Ghosh, J. Tesch, A. Chandrasekaran, V. F. Abrevaya, S. Sanyal, O. Ben-Dov and P. Forte for fruitful discussions, advice and proofreading. 
+We also thank A. A. Osman for his helpful advice on body models, P. Patel for helping test OSSO on AGORA, T. McConnel, Y. Xiu, S. Tripathi and T. Yin for helping with the submission and release, and P. Ghosh, J. Tesch, A. Chandrasekaran, V. F. Abrevaya, S. Sanyal, O. Ben-Dov and P. Forte for fruitful discussions, advice and proofreading. 
 
 
 ## License
