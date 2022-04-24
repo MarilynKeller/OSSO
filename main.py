@@ -18,7 +18,7 @@ from osso.utils.star_registration import register_star
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
-
+#todo
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='Given a body mesh, infer the underlying skeleton')
