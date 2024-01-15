@@ -31,6 +31,7 @@ if __name__ == "__main__":
     parser.add_argument('-D', '--display', help='Display optimization steps', action='store_true')
     parser.add_argument('-F', '--force_recompute', help='Force recomputing meshes', action='store_true')
     parser.add_argument('--more_it', help='Use more  optimization iterations', action='store_true')
+    parser.add_argument('--per_parts', help='Export the output skeleton per parts', action='store_true')
     
     args = parser.parse_args()
     
@@ -58,7 +59,7 @@ if __name__ == "__main__":
 
         
     # Register STAR to the input body mesh
-    if not os.path.exists(star_pkl_path) or not os.path.exists(star_mesh_path):   
+    if not os.path.exists(star_pkl_path) or not os.path.exists(star_mesh_path) or force_recompute:   
         logging.info(f'Registering STAR to mesh {skin_mesh_path} ...')
         register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display=display, verbose=verbose)
         logging.info(f'STAR registration saved as {star_pkl_path}.')  
@@ -66,20 +67,20 @@ if __name__ == "__main__":
         logging.info(f'STAR registration already exists in {star_pkl_path}. Force (-F) too recompute')  
         
     # Infer the skeleton in lying down pose
-    if not os.path.exists(skel_pkl_lying_path):
+    if not os.path.exists(skel_pkl_lying_path) or force_recompute:
         logging.info(f'Inferring the skeleton for skin {star_pkl_path} ...')  
-        infer_skeleton(star_pkl_path, skel_mesh_lying_path, skel_pkl_lying_path, star_mesh_lying_path, gender, display=display, verbose=verbose)
+        infer_skeleton(star_pkl_path, skel_mesh_lying_path, skel_pkl_lying_path, star_mesh_lying_path, gender, display=display, verbose=verbose, per_parts=args.per_parts)
         logging.info(f'Inferred skeleton mesh saved as {skel_mesh_lying_path}.')
     else:
         logging.info(f'Inferred lying down skeleton already exists in {skel_mesh_lying_path}. Force (-F) too recompute')  
     
     #Pose the skeleton to the target pose
     if not os.path.exists(skel_mesh_posed) or force_recompute:
-        logging.info(f'Posing the infered skeleton to match the target pose {star_mesh_path} ...') 
+        logging.info(f'Posing the inferred skeleton to match the target pose {star_mesh_path} ...') 
         for path in [skel_pkl_lying_path, star_mesh_lying_path, star_mesh_path] :
             assert os.path.exists(path), f'Missing file {path}'
             
-        pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, star_mesh_path, skel_mesh_posed, use_fast=not args.more_it, display=display, verbose=verbose)
+        pose_skeleton(skel_pkl_lying_path, star_mesh_lying_path, star_mesh_path, skel_mesh_posed, use_fast=not args.more_it, display=display, verbose=verbose, per_parts=args.per_parts)
         logging.info(f'Posed skeleton saved as {skel_mesh_posed}.')
     else:
         logging.info(f'Posed skeleton already exists in {skel_mesh_posed}. Force (-F) too recompute')  

@@ -23,6 +23,8 @@ python main.py  --mesh_input data/demo/body_female.ply --gender female -D -v
 
 The final infered skeleton will be saved in the `out` folder and the intermediate meshes in `out/tmp`.
 
+To export the skeleton mesh as separated meshes, add the `--per_part` option to the previous command.
+
 
 ## Citation
 
