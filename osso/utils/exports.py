@@ -25,7 +25,7 @@ def export_per_part(sp, out_folder):
         i_start = i_end
         i_end = i_start + nV
 
-        part_mesh = Mesh(v = sp.r[i_start: i_end])
+        part_mesh = Mesh(v = sp.r[i_start: i_end], f=gv.model.partFaces[part_i])
         # part_mesh.show()
         part_mesh.write_ply(os.path.join(out_folder, f'{part_i}_{part_name}.ply'))
         print(f'Exported {part_name} as {os.path.join(out_folder, f"{part_i}_{part_name}.ply")}')

@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
         
     # Register STAR to the input body mesh
-    if not os.path.exists(star_pkl_path) or not os.path.exists(star_mesh_path) or force_recompute:   
+    if not os.path.exists(star_pkl_path) or not os.path.exists(star_mesh_path):   
         logging.info(f'Registering STAR to mesh {skin_mesh_path} ...')
         register_star(skin_mesh_path, star_mesh_path, star_pkl_path, gender, display=display, verbose=verbose)
         logging.info(f'STAR registration saved as {star_pkl_path}.')  
