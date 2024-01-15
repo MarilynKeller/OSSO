@@ -31,6 +31,8 @@ def STAR(gender='female',num_betas=10, use_pose_dirs=True, model_dict=None):
         raise RuntimeError('Invalid model gender!')
     if num_betas < 2:
         raise RuntimeError('Number of betas should be at least 2')
+    
+    assert os.path.exists(cg.path_male_star), f"Could not load STAR model at {cg.path_male_star}"
 
     if model_dict is None:
         if gender == 'male':
