@@ -4,9 +4,11 @@ This repository contains the official implementation of the skeleton inference f
 
 **OSSO: Obtaining Skeletal Shape from Outside** <br>*Marilyn Keller, Silvia Zuffi, Michael J. Black and Sergi Pujades* <br>[Full paper](https://download.is.tue.mpg.de/osso/OSSO.pdf) | [Project website](https://osso.is.tue.mpg.de/index.html#Dataset) 
 
+**News 15/02/2024**: Check out our new skeleton model [SKEL](https://github.com/MarilynKeller/SKEL) (Siggraph Asia 2023). SKEL as similar features as OSSO but the skin is rigged with the skeleton and the skeleton can be reposed.
 
 Given a body shape with SMPL or STAR topology (in blue), we infer the underlying skeleton (in yellow).
 ![teaser](./figures/skeleton_results.png)
+
 
 
 ## Installation
