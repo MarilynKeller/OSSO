@@ -1,11 +1,9 @@
 from setuptools import setup, find_packages
-
 setup(
-    name="smpl2addbio",
+    name="osso",
     version="0.1",
-    description=("Generating input data for [AddBiomechanics](https://addbiomechanics.org/) from SMPL sequences."),
+    description=("Osso code, generation of anatomic skeleton from SMPL."),
     author="Marilyn Keller",
     author_email="marilyn.keller@tuebingen.mpg.de",
     packages=find_packages(),
 )
-
